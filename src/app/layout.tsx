@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { DM_Serif_Text } from "next/font/google";
+import { Raleway } from "next/font/google";
 import "./globals.css";
 
-const dmSerifText = DM_Serif_Text({
-  variable: "--font-dm-serif-text",
+const raleway = Raleway({
+  variable: "--font-raleway",
   subsets: ["latin"],
-  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -20,9 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSerifText.variable} antialiased`}>
+      <body className={`${raleway.variable} antialiased`}>
         <div className="flex p-4 pt-12 justify-center bg-slate-200 min-h-dvh">
-          <div className="bg-white shadow-md shadow-slate-300/30 p-6 rounded-xl h-fit w-full max-w-xl">
+          <div className="bg-white shadow-md shadow-slate-300/30 p-6 rounded-xl h-fit max-w-xl">
             {children}
           </div>
         </div>
