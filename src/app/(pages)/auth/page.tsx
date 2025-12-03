@@ -18,8 +18,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Usuário é obrigatório"),
-  password: z.string().min(1, "Senha é obrigatória"),
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -43,16 +43,16 @@ export default function Auth() {
     <div className="flex min-h-screen w-full items-center justify-center p-4">
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
-          <h1 className="text-xl font-semibold">Acesse sua conta</h1>
+          <h1 className="text-xl font-semibold">Access your account</h1>
           <p className="text-sm text-muted-foreground">
-            Entre com seu usuário e senha para continuar
+            Enter your username and password to continue
           </p>
         </div>
 
         {loginError && (
           <Alert variant="destructive">
             <AlertDescription>
-              Credenciais inválidas. Tente novamente.
+              Invalid credentials. Please try again.
             </AlertDescription>
           </Alert>
         )}
@@ -64,7 +64,7 @@ export default function Auth() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Usuário</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input placeholder="emilys" {...field} />
                   </FormControl>
@@ -77,7 +77,7 @@ export default function Auth() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -90,7 +90,7 @@ export default function Auth() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoggingIn}>
-              {isLoggingIn ? "Entrando..." : "Entrar"}
+              {isLoggingIn ? "Logging in..." : "Login"}
             </Button>
           </form>
         </Form>

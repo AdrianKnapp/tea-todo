@@ -1,10 +1,10 @@
 'use client'
 
 import { type FC } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
-import { Trash2, ExternalLink } from 'lucide-react'
+import { Trash2, Eye } from 'lucide-react'
 import type { Todo } from '@/types/todo'
 
 interface TodoItemProps {
@@ -22,6 +22,12 @@ export const TodoItem: FC<TodoItemProps> = ({
   isUpdating,
   isDeleting,
 }) => {
+  const router = useRouter()
+
+  const handleViewDetails = () => {
+    router.push(`/todos?selected=${todo.id}`)
+  }
+
   return (
     <div className="flex items-center gap-4 rounded-lg border p-4">
       <Checkbox
@@ -39,10 +45,8 @@ export const TodoItem: FC<TodoItemProps> = ({
       </span>
 
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={`/todos/${todo.id}`}>
-            <ExternalLink className="h-4 w-4" />
-          </Link>
+        <Button variant="ghost" size="icon" onClick={handleViewDetails}>
+          <Eye className="h-4 w-4" />
         </Button>
 
         <Button

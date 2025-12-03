@@ -22,7 +22,7 @@ export const TodoList: FC<TodoListProps> = ({
   if (todos.length === 0) {
     return (
       <div className="py-12 text-center text-muted-foreground">
-        Nenhuma tarefa encontrada. Crie uma para começar!
+        No tasks found. Create one to get started!
       </div>
     )
   }

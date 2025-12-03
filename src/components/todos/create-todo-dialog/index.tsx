@@ -39,17 +39,17 @@ export const CreateTodoDialog: FC<CreateTodoDialogProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Criar Nova Tarefa</DialogTitle>
+          <DialogTitle>Create New Task</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-4 py-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="todo">Tarefa</Label>
+            <Label htmlFor="todo">Task</Label>
             <Input
               id="todo"
               value={todo}
               onChange={(e) => setTodo(e.target.value)}
-              placeholder="O que precisa ser feito?"
+              placeholder="What needs to be done?"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   handleSubmit()
@@ -61,10 +61,10 @@ export const CreateTodoDialog: FC<CreateTodoDialogProps> = ({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancelar
+            Cancel
           </Button>
           <Button onClick={handleSubmit} disabled={isLoading || !todo.trim()}>
-            {isLoading ? 'Criando...' : 'Criar'}
+            {isLoading ? 'Creating...' : 'Create'}
           </Button>
         </DialogFooter>
       </DialogContent>
