@@ -14,15 +14,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
+  username: z.string().min(1, "Usuário é obrigatório"),
+  password: z.string().min(1, "Senha é obrigatória"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function Auth() {
+  const { login, isLoggingIn, loginError } = useAuth();
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -31,15 +35,12 @@ export default function Auth() {
     },
   });
 
-  function onSubmit(data: LoginFormValues) {
-    // Ready for DummyJSON API integration
-    // POST https://dummyjson.com/auth/login
-    // Body: { username, password }
-    console.log(data);
+  async function onSubmit(data: LoginFormValues) {
+    await login(data.username, data.password);
   }
 
   return (
-    <div className="flex w-full items-center justify-center p-4">
+    <div className="flex min-h-screen w-full items-center justify-center p-4">
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
           <h1 className="text-xl font-semibold">Acesse sua conta</h1>
@@ -47,6 +48,15 @@ export default function Auth() {
             Entre com seu usuário e senha para continuar
           </p>
         </div>
+
+        {loginError && (
+          <Alert variant="destructive">
+            <AlertDescription>
+              Credenciais inválidas. Tente novamente.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -56,7 +66,7 @@ export default function Auth() {
                 <FormItem>
                   <FormLabel>Usuário</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite seu usuário" {...field} />
+                    <Input placeholder="emilys" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -71,7 +81,7 @@ export default function Auth() {
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Digite sua senha"
+                      placeholder="emilyspass"
                       {...field}
                     />
                   </FormControl>
@@ -79,11 +89,15 @@ export default function Auth() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Entrar
+            <Button type="submit" className="w-full" disabled={isLoggingIn}>
+              {isLoggingIn ? "Entrando..." : "Entrar"}
             </Button>
           </form>
         </Form>
+
+        <p className="text-center text-xs text-muted-foreground">
+          Use: emilys / emilyspass
+        </p>
       </div>
     </div>
   );

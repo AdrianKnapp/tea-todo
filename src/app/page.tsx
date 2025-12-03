@@ -1,7 +1,5 @@
+import { redirect } from 'next/navigation'
+
 export default function Home() {
-  return (
-    <div className="flex">
-      <p>Home page</p>
-    </div>
-  );
+  redirect('/todos')
 }
