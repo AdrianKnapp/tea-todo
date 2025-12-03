@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Plus, LogOut, AlertCircle } from 'lucide-react'
@@ -47,6 +47,27 @@ export function TodosContent() {
     router.push(`/todos?${params.toString()}`)
   }
 
+  // Keyboard shortcut: Press 'N' to open create todo dialog
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input, textarea, or contenteditable element
+      const target = event.target as HTMLElement
+      const isTyping =
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.contentEditable === 'true'
+
+      // Check if 'N' key is pressed (not case sensitive) and not typing
+      if ((event.key === 'n' || event.key === 'N') && !isTyping && !event.metaKey && !event.ctrlKey) {
+        event.preventDefault()
+        setIsCreateOpen(true)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   if (isLoading) {
     return (
       <main className="mx-auto max-w-2xl p-4">
@@ -89,9 +110,12 @@ export function TodosContent() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button onClick={() => setIsCreateOpen(true)}>
+          <Button onClick={() => setIsCreateOpen(true)} className="relative">
             <Plus className="mr-2 h-4 w-4" />
             New Task
+            <kbd className="ml-2 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-white/20 bg-white/10 px-1.5 font-mono text-[10px] font-medium text-white opacity-100">
+              N
+            </kbd>
           </Button>
 
           <Button variant="outline" onClick={logout} disabled={isLoggingOut}>
